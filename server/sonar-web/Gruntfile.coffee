@@ -343,45 +343,20 @@ module.exports = (grunt) ->
           script: 'src/test/server.js'
 
 
-    casper:
+    casperjs:
+      options:
+        test: true
+        casperjsOptions: ['--port=' + expressPort, '--no-colors']
+        async: parallel: true
       test:
-        options:
-          test: true
-          'no-colors': true
-          'fail-fast': true
-          concise: true
-          parallel: !isWindows
-          port: expressPort
         src: ['src/test/js/**/*.js']
       testCoverage:
-        options:
-          test: true
-          'no-colors': true
-          'fail-fast': true
-          concise: true
-          parallel: !isWindows
-          port: expressPort
         src: ['src/test/js/**/*.js']
       testCoverageLight:
-        options:
-          test: true
-          'fail-fast': true
-          verbose: true
-          port: expressPort
         src: ['src/test/js/**/*<%= grunt.option("spec") %>*.js']
       single:
-        options:
-          test: true
-          verbose: true
-          'fail-fast': true
-          port: expressPort
         src: ['src/test/js/<%= grunt.option("spec") %>-spec.js']
       testfile:
-        options:
-          test: true
-          verbose: true
-          'fail-fast': true
-          port: expressPort
         src: ['<%= grunt.option("file") %>']
 
 
@@ -472,19 +447,19 @@ module.exports = (grunt) ->
       ['dev', 'watch']
 
   grunt.registerTask 'test',
-      ['dev', 'express:test', 'casper:test']
+      ['dev', 'express:test', 'casperjs:test']
 
   grunt.registerTask 'testCoverage',
-      ['dev', 'express:testCoverage', 'curl:resetCoverage', 'casper:testCoverage', 'curl:downloadCoverage', 'unzip', 'replace:lcov']
+      ['dev', 'express:testCoverage', 'curl:resetCoverage', 'casperjs:testCoverage', 'curl:downloadCoverage', 'unzip', 'replace:lcov']
 
   grunt.registerTask 'testCoverageLight',
-      ['dev', 'express:testCoverage', 'curl:resetCoverage', 'casper:testCoverageLight', 'curl:downloadCoverage', 'unzip', 'replace:lcov']
+      ['dev', 'express:testCoverage', 'curl:resetCoverage', 'casperjs:testCoverageLight', 'curl:downloadCoverage', 'unzip', 'replace:lcov']
 
   grunt.registerTask 'single',
-      ['dev', 'express:test', 'casper:single']
+      ['dev', 'express:test', 'casperjs:single']
 
   grunt.registerTask 'testfile',
-      ['dev', 'express:test', 'casper:testfile']
+      ['dev', 'express:test', 'casperjs:testfile']
 
   # tasks used by Maven build (see pom.xml)
   grunt.registerTask 'maven-build-skip-tests-true-nocoverage',
